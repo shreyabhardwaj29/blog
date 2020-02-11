@@ -1,1 +1,11 @@
 <h2> Articles show page </h2>
+<p><%= @article.title %></p>
+<p><%= @article.body %> </p>
+<p><%= @article.category_id %></p>
+<p><%= @article.publish_date %> </p>
+<p><%= @article.feature_image_url %></p>
+<p><%= @article.is_published %> </p>
+<p>
+<%= link_to "edit", edit_article_path(@article.id) %>
+<%= link_to "delete", article_path(@article.id), method: :delete, data: {confirm: "Are you Sure ?"} %>
+</p>

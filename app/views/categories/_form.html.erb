@@ -1,8 +1,11 @@
- <%= form_for @category do |item| %>
-   <label for="category_name"> Name: </label><br/>
-   <%= item.text_field :name %> <br/>
-   <label for="category_description"> Description: </label><br/>
-   <%= item.text_field :description %> <br/>
-   <%= item.submit %>
-   <% end %>
+<%= form_for @category do |category| %>
+
+  <label for="category_name"> Name: </label><br/>
+  <%= category.text_field :name %> <br/>
+
+  <label for="category_description"> Description: </label><br/>
+  <%= category.text_field :description %> <br/>
+  
+  <%= category.submit %>
+<% end %>
    
