@@ -1,21 +1,19 @@
 <h1> Articles Index Page </h1>
 <% @articles.each_with_index do |article,index| %>
-  <label> Article title </label>
-  <%= article.title %><br/>
-  <label> Article body </label>
+  <label> Article title: </label>
+  <%= article.title %>-- <%= Category.find(article.category_id).name %> </b> <br/>
+  <label> Article body:</label>
   <%= article.body %><br/>
-  <label> Article category </label>
-  <%= article.category_id %><br/>
-  <label> Article published date </label>
+  <label> Article published date :</label>
   <%= article.publish_date %><br/>
-  <label> Article is published? </label>
+  <label> Article is published?: </label>
   <% if article.is_published %>
     Article is published
   <% else %>
     Article is not published
   <% end %>
   <br/>
-  <label> Article image url </label>
-  <%= article.feature_image_url %><br/><br/>
-<% end %>
+  <label> Image</label>
+  <%= image_tag(article.feature_image_url.to_s, size: "10*20" ,alt: "Image") %><br/><br/>
+  <% end %>
 <%= link_to "Add Articles", new_article_path %>

@@ -17,10 +17,9 @@ class ArticlesController < ApplicationController
   end
 
   def create
-    
     @article = Article.new(set_param)
     @article.title = params['article']['title']
-    @article.body = params['article']['body']
+    @article.body = params['a<p id="notice"><%= notice %></p>rticle']['body']
     @article.category_id = params['article']['category_id']
     @article.publish_date = params['article']['publish_date']
     @article.feature_image_url = params['article']['feature_image_url']

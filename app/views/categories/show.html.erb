@@ -1,6 +1,14 @@
+<p id="notice"><%= notice %></p>
 <p><%= @category.name %></p>
 <p><%= @category.description %> </p>
-<p>
+
+<% @category.articles.each_with_index do |article,index| %>  	
+  <%# <%= article.feature_image_url %> 
+  <label>Title :</label><%= article.title %><br/>
+  <label>Body :</label><%= article.body %><br/>
+  <%= link_to "more", article%><br/> 
+  <label>Posted on</label> <%= article.publish_date.strftime("%B %d %Y") %><br/><br/>
+<% end %>
 <%= link_to "edit", edit_category_path(@category.id) %>
 <%= link_to "delete", category_path(@category.id), method: :delete, data: {confirm: "Are you Sure ?"} %>
-</p>
+<%= link_to "Index", categories_path %>

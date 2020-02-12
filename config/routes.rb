@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   get 'categories/', to: 'categories#index', as: 'categories'
   get 'categories/new', to: 'categories#new', as: 'new_category'
   get 'categories/:id', to: 'categories#show', as: 'category'
@@ -14,5 +15,6 @@ Rails.application.routes.draw do
   get 'articles/:id/edit',to: 'articles#edit', as: 'edit_article'
   patch 'articles/:id' ,to: 'articles#update'
   delete 'articles/:id', to: 'articles#destroy'
-  root 'categories#show'
+  #root 'categories#show'
 end
+

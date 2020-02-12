@@ -1,5 +1,6 @@
+<p id="notice"><%= notice %></p>
 <h2> Articles show page </h2>
-<p><%= @article.title %></p>
+<h3><%= @article.title %></h3>(<%=link_to @article.category.name, category_path%>)
 <p><%= @article.body %> </p>
 <p><%= @article.category_id %></p>
 <p><%= @article.publish_date %> </p>
