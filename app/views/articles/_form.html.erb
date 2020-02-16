@@ -1,30 +1,119 @@
- <%= form_for  @article do |article| %>
-  
+<%= form_with model: @article, :html => {:class => "form", :id => "articleForm"} do |article| %> 
+    <% if user_signed_in? %>
     <label> Enter article title </label>
-    <%= article.text_field :title %><br/>
+    <%= article.text_field :title %><br/><span id="titleError"></span>
      </br>
   
     <label> Enter article description </label>
-    <%= article.text_field :body %><br/>
+    <%= article.text_field :body %><br/><span id="bodyError"></span><br/><br/>
     </br>
   
     <label> Enter category article belongs to  </label>
     <%= article.collection_select :category_id, Category.all, :id, :name, prompt: "Select the Category" %><br/>
-    </br>
+    </br><span id="categoryError"></span><br/><br/>
+
   
     <label> Publish date:  </label>
     <%= article.date_field :publish_date, order: [:day, :month, :year] %><br/>
-    </br>
+    </br><span id="dateError"></span> <br/><br/>
+
   
     <label> Enter the image URL </label>
-    <%= article.file_field :feature_image_url %><br/>
+    <%= article.file_field :feature_image_url %><br/><span id="imageError"></span> <br/><br/>
     </br>
   
     <label> Published date </label>
     <%= article.check_box :is_published, checked: "checked" %><br/>
     </br>
   
-    <%= article.submit %>
+    <%= article.submit "save", id: "articleSubmit" %>
     </br>
-  
+    <% else %>  
+    <p> You must sign in inorder to post an article </p>
   <% end %>
+
+<% end %>
+
+<script>
+  var formHandle = document.getElementById('articleForm');
+  var categoryHandle = document.getElementById('article_category_id');
+  var titleHandle = document.getElementById('article_title');
+  var bodyHandle = document.getElementById('article_body');
+  var dateHandle = document.getElementById('article_publish_date');
+  var imageHandle = document.getElementById('article_feature_image_url');
+  var submitHandle = document.getElementById('articleSubmit');
+
+  var categoryErrorHandle = document.getElementById('categoryError');
+  var titleErrorHandle = document.getElementById('titleError');
+  var bodyErrorHandle = document.getElementById('bodyError');
+  var imageErrorHandle = document.getElementById('imageError');
+  var dateErrorHandle = document.getElementById('dateError');
+
+
+    var validator = {
+    categoryValid: false,
+    titleValid: false,
+    bodyValid: false,
+    imageValid: false,
+    dateValid: false
+  }
+
+  function categoryValidation(){
+    if (categoryHandle.value === ""){
+      categoryErrorHandle.innerHTML = "Cannot be blank";
+    }else{
+      categoryErrorHandle.innerHTML = "";
+    }
+  }
+
+  function titleValidation(){
+    if (titleHandle.value === ""){
+      titleErrorHandle.innerHTML = "Cannot be blank";
+    }else{
+      titleErrorHandle.innerHTML = "";
+    }
+  }
+
+  function bodyValidation(){
+    if (bodyHandle.value === ""){
+      bodyErrorHandle.innerHTML = "Cannot be blank";
+    }else{
+      bodyErrorHandle.innerHTML = "";
+    }
+  }
+
+  function imageValidation(){
+    if (imageHandle.value === ""){
+      imageErrorHandle.innerHTML = "Cannot be blank";
+    }else{
+      imageErrorHandle.innerHTML = "";
+    }
+  }
+
+  function dateValidation(){
+    if(dateHandle.value === ""){
+      dateErrorHandle.innerHTML = "Cannot be blank";
+    }else{
+      dateErrorHandle.innerHTML = "";
+    }
+  }
+
+  formHandle.addEventListener('submit',function(e){
+    console.log("hello");
+    categoryValidation();
+    titleValidation();
+    bodyValidation();
+    imageValidation();
+    dateValidation();
+    if(Object.values(validator).includes(false)){
+      e.preventDefault();
+      setTimeout(function(){
+        submitHandle.disabled = false;
+      },100);
+    }else{
+
+    }
+  },false);
+
+
+</script>

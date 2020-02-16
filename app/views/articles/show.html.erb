@@ -7,7 +7,7 @@
 <p><%= @article.feature_image_url %></p>
 <p><%= @article.is_published %> </p>
 <p> 
-<%= link_to "edit", edit_article_spath(@article.id) %>
+<%= link_to "edit", edit_article_path(@article.id) %>
 <%= link_to "delete", article_path(@article.id), method: :delete, data: {confirm: "Are you Sure ?"} %>
 </p>
 
@@ -17,23 +17,69 @@
   <b> <%= comment.title %>: </b> <%= comment.body %>
 <% end %>
 
+<div align=left>
+
+<% Comment.where(:article_id => @article.id).each do |comment| %>
+  <b> Title: </b> <%= comment.title %><br/> <b> Body: </b> <%= comment.body %><br/>
+  <% if comment.user_id == current_user.id  or @article.user_id == current_user.id or can? :manage, comment or can? :edit, comment%>
+    <%= link_to 'edit', edit_comment_path(comment.id)%>
+    <%= link_to "Delete", comment , method: :delete, data: { confirm: "sure?" } %><br/>
+  <% end %>
+  <br/>
+<% end %>
+
 <div align=center>
 
-<%= form_for @comment do |f| %>
+<%= form_for Comment.new, :html => {:class => "form", :id => "articleForm"} do |f| %>
 
   <% if user_signed_in? %>
 
-    <%= f.hidden_field :article_id, :disabled => true, value: @article.id %><br/>
+    <%= f.hidden_field :article_id, value: @article.id %><br/>
 
     <label> Enter Title </label>
-    <%= f.text_field :title %><br/>
+    <%= f.text_field :title %> <span id="titleError"></span>  <br/>
 
     <label> Your comments </label>
-    <%= f.text_area :body %><br/>
+    <%= f.text_area :body %> <span id="bodyError"></span> <br/>
 
-    <%= f.submit %><br/>
+    <%= f.submit "save", id: "articleSubmit" %><br/>
 
   <% end %>
   </div>
 
 <% end %>
+
+  </div>
+
+
+<script>
+  var title = document.getElementById('comment_title');
+  var comment = document.getElementById('comment_body');
+  var formHandle = document.getElementById('articleForm');
+  var submitHandle = document.getElementById('articleSubmit');
+
+  var titleErrorHandle = document.getElementById('titleError');
+  var bodyErrorHandle = document.getElementById('bodyError');
+
+  formHandle.addEventListener('submit',function(e){
+    if (title.value === "") {
+      titleErrorHandle.innerHTML = "Title field cannot be empty";
+      e.preventDefault();
+    }else{
+      titleErrorHandle.innerHTML = "";
+    }
+
+    if (comment.value === "") {
+      bodyErrorHandle.innerHTML = "Title field cannot be empty";
+      e.preventDefault();
+    }else{
+      bodyErrorHandle.innerHTML = "";
+    }
+    setTimeout(function(){
+        submitHandle.disabled = false;
+      },100);
+
+  },true);
+
+</script>s
+

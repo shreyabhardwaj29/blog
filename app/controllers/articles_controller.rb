@@ -6,11 +6,13 @@ class ArticlesController < ApplicationController
   end
 
   def show
+    @comment = Comment.new
     
   end
   
   def new
     @article = Article.new
+    
   end
 
   def edit
@@ -33,6 +35,14 @@ class ArticlesController < ApplicationController
 		end
     
       if @article.save
+        if not current_user.permissions.exists?(roles_id:4) and not current_user.permissions.exists?(roles_id:1)
+            @permission = Permission.new
+            @permission.user_id = current_user.id
+            @permission.roles_id = 2
+            if not @permission.save
+              redirect_to article_path(@article)
+            end
+          end
         redirect_to article_path(@article)
       else
         redirect_to new_article_path

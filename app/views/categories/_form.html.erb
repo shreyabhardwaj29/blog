@@ -1,11 +1,43 @@
-<%= form_for @category do |category| %>
+<%= form_with model: @category, :html => {:class => "form", :id => "categoryForm"} do |category| %>
+  <% if can? :manage, @category %>
+    <label for="category_name"> Name: </label><br/>
+    <%= category.text_field :name %> <br/><span id="nameError"> </span>
 
-  <label for="category_name"> Name: </label><br/>
-  <%= category.text_field :name %> <br/>
-
-  <label for="category_description"> Description: </label><br/>
-  <%= category.text_field :description %> <br/>
+    <label for="category_description"> Description: </label><br/>
+    <%= category.text_field :description %> <br/><span id = "descriptionError"> </span> 
   
-  <%= category.submit %>
+    <%= category.submit "Add Category", id: "categorySubmit" %>
+  <% else %>
+    <h1> Login as Administrator to add category </h1>
+  <% end %>
 <% end %>
    
+<script>
+  var formHandle = document.getElementById('categoryForm'); 
+  var nameElement = document.getElementById('category_name');
+  var description = document.getElementById('category_description');
+  var submitHandle = document.getElementById('categorySubmit');
+
+  var nameError = document.getElementById('nameError');
+  var descError = document.getElementById('descriptionError');
+  formHandle.addEventListener('submit',function(e){
+    if (nameElement.value === "") {
+      nameError.innerHTML = "Enter category name here!";
+      e.preventDefault();
+    }
+    else{
+      nameError.innerHTML = "";
+    }
+
+    if (description.value === "") {
+      descError.innerHTML = "Enter the description here!";
+      e.preventDefault();
+    }
+    else{
+      descError.innerHTML = "";
+    }
+    setTimeout(function(){
+        submitHandle.disabled = false;
+      },100);
+  },false);
+</script>
