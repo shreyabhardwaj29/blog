@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  devise_for :users
 
+  devise_for :users
   get 'categories/', to: 'categories#index', as: 'categories'
   get 'categories/new', to: 'categories#new', as: 'new_category'
   get 'categories/:id', to: 'categories#show', as: 'category'
@@ -17,6 +17,14 @@ Rails.application.routes.draw do
   patch 'articles/:id' ,to: 'articles#update'
   delete 'articles/:id', to: 'articles#destroy'
   root 'articles#index'
-  
+
+  #routes for comments controller to be written here.
+  get 'comments', to: 'comments#index'
+  get 'comments/new', to: 'comments#new', as: 'new_comment'
+  get 'comments/:id', to: 'comments#show', as: 'comments_show'
+  post 'comments/:id', to: 'comments#create'
+  get 'comments/:id/edit', to: 'comments#edit', as: 'edit_comment'
+  patch 'comments/:id', to: 'comments#update'
+  delete 'comments/:id', to: 'comments#destroy'
 end
 

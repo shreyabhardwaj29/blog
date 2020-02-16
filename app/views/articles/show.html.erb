@@ -6,7 +6,34 @@
 <p><%= @article.publish_date %> </p>
 <p><%= @article.feature_image_url %></p>
 <p><%= @article.is_published %> </p>
-<p>
-<%= link_to "edit", edit_article_path(@article.id) %>
+<p> 
+<%= link_to "edit", edit_article_spath(@article.id) %>
 <%= link_to "delete", article_path(@article.id), method: :delete, data: {confirm: "Are you Sure ?"} %>
 </p>
+
+<h1> Comments Below </h1>
+
+<% Comment.where(:article_id => @article.id).each do |comment| %>
+  <b> <%= comment.title %>: </b> <%= comment.body %>
+<% end %>
+
+<div align=center>
+
+<%= form_for @comment do |f| %>
+
+  <% if user_signed_in? %>
+
+    <%= f.hidden_field :article_id, :disabled => true, value: @article.id %><br/>
+
+    <label> Enter Title </label>
+    <%= f.text_field :title %><br/>
+
+    <label> Your comments </label>
+    <%= f.text_area :body %><br/>
+
+    <%= f.submit %><br/>
+
+  <% end %>
+  </div>
+
+<% end %>

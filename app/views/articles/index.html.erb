@@ -1,4 +1,4 @@
-<h1> Articles Index Page </h1>
+<h1> Welcome To Blog </h1>
 <% if (user_signed_in?) %>
 <% @articles.each_with_index do |article,index| %>
   <label> Article title: </label>
@@ -15,10 +15,10 @@
   <% end %>
   <br/>
   <label> Image</label>
-  <%= image_tag(article.feature_image_url.to_s, size: "10*10" ,alt: "Image") %><br/><br/>
+  <%= image_tag(article.feature_image_url.to_s,:size => "50x50" ,alt: "Image") %><br/><br/>
   
   <% end %>
 <%= link_to "Add Articles", new_article_path %>
 <% else %>
-<label> Welcome!!</label>
+<label>Register First! </label>
 <% end %>
