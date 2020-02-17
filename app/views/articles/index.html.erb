@@ -16,7 +16,7 @@
   <br/>
   <label> Image</label>
   <%= image_tag(article.feature_image_url.to_s,:size => "50x50" ,alt: "Image") %><br/><br/>
-  
+  <%= link_to "Show Article", article_path(article.id) %><br/><br/>
   <% end %>
 <%= link_to "Add Articles", new_article_path %>
 <% else %>

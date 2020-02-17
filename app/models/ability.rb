@@ -1,28 +1,25 @@
-class Ability
-  include CanCan::Ability
-
-  class Ability
+ class Ability
     include CanCan::Ability
   
     def initialize(user)
       if user.nil?
           can :read, [Category, Article]
-      elsif user.role?"Admin"
+      elsif user.roles.pluck(:title).include? "Admin"
           can :manage, [Category, Article]
-      elsif user.role?"Moderator"
+      elsif user.roles.pluck(:title).include? "Moderator"
            can :read, Article
            can :create, Comment
            can :destroy, Comment
-      elsif user.role?"Author"
+      elsif user.roles.pluck(:title).include? "Author"
           can :read, Article
           can :create, Article 
           can [:update, :destroy], Article do |art|
               art.article.user_id == user.id
-          end
+      end
           # can :destroy, Review do |rev|
           #     rev.article.user_id == user.id
           # end
-      elsif user.role?"User"
+      elsif user.roles.pluck(:title).include? "User"
           can :read,:update [Category, Article]
           can [:read, :create]
           can [:update, :destroy], Comment do |review|
@@ -30,4 +27,4 @@ class Ability
            end
       end
     end
-  
+end

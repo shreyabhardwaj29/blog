@@ -6,10 +6,11 @@
 <p><%= @article.publish_date %> </p>
 <p><%= @article.feature_image_url %></p>
 <p><%= @article.is_published %> </p>
-<p> 
-<%= link_to "edit", edit_article_path(@article.id) %>
-<%= link_to "delete", article_path(@article.id), method: :delete, data: {confirm: "Are you Sure ?"} %>
-</p>
+<% if user_signed_in? and (can? :manage, @article or current_user.id == @article.user_id) %>
+    <%= link_to "edit", article_edit_path(@article.id) %>
+    <%= link_to "Delete", @article , method: :delete, data: { confirm: "sure?" } %><br/><br/> <br/>
+<% end %>
+
 
 <h1> Comments Below </h1>
 
@@ -22,13 +23,13 @@
 <% Comment.where(:article_id => @article.id).each do |comment| %>
   <b> Title: </b> <%= comment.title %><br/> <b> Body: </b> <%= comment.body %><br/>
   <% if comment.user_id == current_user.id  or @article.user_id == current_user.id or can? :manage, comment or can? :edit, comment%>
-    <%= link_to 'edit', edit_comment_path(comment.id)%>
+    <%= link_to 'edit', comment_edit_path(comment.id)%>
     <%= link_to "Delete", comment , method: :delete, data: { confirm: "sure?" } %><br/>
   <% end %>
   <br/>
 <% end %>
 
-<div align=center>
+<div align=left>
 
 <%= form_for Comment.new, :html => {:class => "form", :id => "articleForm"} do |f| %>
 
@@ -81,5 +82,5 @@
 
   },true);
 
-</script>s
+</script>
 

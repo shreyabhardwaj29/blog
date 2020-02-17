@@ -16,8 +16,9 @@ class CommentsController < ApplicationController
     @comments = Comment.new
     @comments.title = params['comment']['title']
     @comments.body = params['comment']['body']
-   # @comments.article_id = params['comment']['article_id']
+   @comments.article_id = params['comment']['article_id']
     @comments.user_id = current_user.id
+
     if @comments.save
       #notice = "Your postcomments added successfully"
       flash.notice = "Your Comment has been added"

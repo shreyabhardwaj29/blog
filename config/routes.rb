@@ -19,12 +19,20 @@ Rails.application.routes.draw do
   root 'articles#index'
 
   #routes for comments controller to be written here.
+  # get 'comments', to: 'comments#index'
+  # get 'comments/new', to: 'comments#new', as: 'new_comment'
+  # get 'comments/:id', to: 'comments#show', as: 'comments_show'
+  # post 'comments/:id', to: 'comments#create'
+  # get 'comments/:id/edit', to: 'comments#edit', as: 'edit_comment'
+  # patch 'comments/:id', to: 'comments#update'
+  # delete 'comments/:id', to: 'comments#destroy'
   get 'comments', to: 'comments#index'
-  get 'comments/new', to: 'comments#new', as: 'new_comment'
-  get 'comments/:id', to: 'comments#show', as: 'comments_show'
-  post 'comments/:id', to: 'comments#create'
-  get 'comments/:id/edit', to: 'comments#edit', as: 'edit_comment'
+  get 'comments/new', to: 'comments#new'
+  get 'comments/:id', to: 'comments#show', as: 'comment'
+  post 'comments/', to: 'comments#create'
+  get 'comments/:id/edit', to: 'comments#edit', as: 'comment_edit'
   patch 'comments/:id', to: 'comments#update'
   delete 'comments/:id', to: 'comments#destroy'
+
 end
 

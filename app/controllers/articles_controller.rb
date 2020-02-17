@@ -20,7 +20,7 @@ class ArticlesController < ApplicationController
   end
 
   def create
-    
+    # binding.pry
     @article = Article.new(set_param)
     @article.user_id = current_user.id
     @article.title = params['article']['title']
@@ -35,14 +35,14 @@ class ArticlesController < ApplicationController
 		end
     
       if @article.save
-        if not current_user.permissions.exists?(roles_id:4) and not current_user.permissions.exists?(roles_id:1)
+        if not current_user.permissions.exists?(role_id:4) and not current_user.permissions.exists?(role_id:1) and not current_user.permissions.exists?(role_id:3)
             @permission = Permission.new
             @permission.user_id = current_user.id
-            @permission.roles_id = 2
+            @permission.role_id = 2
             if not @permission.save
               redirect_to article_path(@article)
             end
-          end
+        end
         redirect_to article_path(@article)
       else
         redirect_to new_article_path
